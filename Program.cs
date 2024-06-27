@@ -1,12 +1,15 @@
 using BlazorCrud.Data;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
+string cadena = builder.Configuration.GetConnectionString("Cadena_Default");
+builder.Services.AddDbContext<AplicationDbContext>(x => x.UseSqlServer(cadena));
 
 var app = builder.Build();
 
