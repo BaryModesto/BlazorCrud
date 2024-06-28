@@ -11,6 +11,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 string cadena = builder.Configuration.GetConnectionString("Cadena_Default");
 builder.Services.AddDbContext<AplicationDbContext>(x => x.UseSqlServer(cadena));
+builder.Services.AddLogging();
 
 builder.Services.AddScoped<IRepositorio,Repositorio>();
 

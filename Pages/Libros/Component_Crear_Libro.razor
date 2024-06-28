@@ -105,6 +105,7 @@
 
     async Task Manejador_Crear_Libro()
     {  
-       var result = await repo.Crear_Libro(libro);
+        var result = await repo.Crear_Libro(libro);
+        manager_navegation.NavigateTo("/libros");
     }
 }

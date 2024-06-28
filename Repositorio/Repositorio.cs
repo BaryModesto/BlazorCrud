@@ -1,6 +1,7 @@
 ﻿using BlazorCrud.Data;
 using BlazorCrud.Modelo;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System.Linq;
 
 namespace BlazorCrud.Repositorio
@@ -8,8 +9,8 @@ namespace BlazorCrud.Repositorio
     public class Repositorio : IRepositorio
     {
         AplicationDbContext bd;
-        ILogger log;
-        public Repositorio(AplicationDbContext _bd, ILogger _log)
+        ILogger<Repositorio> log;
+        public Repositorio(AplicationDbContext _bd,ILogger<Repositorio> _log)
         {
             bd = _bd;
             log = _log;
@@ -44,26 +45,37 @@ namespace BlazorCrud.Repositorio
 
         public async Task<Libro> Crear_Libro(Libro _libro)
         {
-            if (_libro == null)
+            var result = await bd.Libro.AnyAsync(x=> x.titulo== _libro.titulo || x.descripcion == _libro.descripcion);
+            if (_libro == null )
             {
+                log.LogError($"El parametro _libro es null\n");
                 return new Libro();
             }
-            //var result = await bd.Libro.FindAsync(_libro);
-            //if (result == null)
-            //{
-            //    return new Libro();
-            //}
+            if (result)
+            {                   
+                log.LogError($"El libro que se quiere crear ya existe: {_libro} \n");
+                return new Libro();
+            }
+
+
             _libro.fecha_creacion = DateTime.Now;
             try
             {
-                await bd.Libro.AddAsync(_libro);
+               var realizado = await bd.Libro.AddAsync(_libro);
 
             }
             catch (OperationCanceledException ex)
             {
-                ex.
+               log.LogError(ex.Message,ex);
             }
-            await bd.SaveChangesAsync();
+            try
+            {
+                await bd.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                log.LogError(ex.Message, ex);
+            }
             return _libro;
         }
 
