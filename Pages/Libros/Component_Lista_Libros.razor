@@ -1,0 +1,67 @@
+﻿@page "/libros"
+
+@inject IRepositorio repo
+
+<h3>CRUD con Blazor</h3>
+
+<div class="card">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-12">
+                <h2 class="text-dark"> Lista de Libros</h2>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Titulo</th>
+                    <th>Descripcion</th>
+                    <th>Autor</th>
+                    <th>Paginas</th>
+                    <th>Precio</th>
+                    <th>Fecha de Creacion</th>
+                    <th>Acciones</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var i in lista_libros)
+                {
+                    <tr>
+                        <td>@i.id</td>
+                        <td>@i.titulo</td>
+                        <td>@i.descripcion</td>
+                        <td>@i.autor</td>
+                        <td>@i.paginas</td>
+                        <td>@i.precio</td>
+                        <td>@i.fecha_creacion</td>
+                        <td>
+                            <a href="editar_libro/@i.id" class="btn btn-success btn-sm"><span class="oi oi-plus" aria-hidden="true"></span>Editar</a>
+                            <button @onclick="@(() => Borrar_Libro(i.id))" class="btn btn-danger btn-sm"><span class="oi oi-delete" aria-hidden="true">Borrar</span> </button>
+                        </td>
+                    </tr>
+                }
+                <tr>
+
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@code {
+    List<Libro> lista_libros = new List<Libro>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        lista_libros =await repo.Get_Libros();
+    }
+
+    async Task Borrar_Libro(int id)
+    {
+        
+    }
+}

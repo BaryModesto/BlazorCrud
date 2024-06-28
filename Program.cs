@@ -1,4 +1,5 @@
 using BlazorCrud.Data;
+using BlazorCrud.Repositorio;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,8 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 string cadena = builder.Configuration.GetConnectionString("Cadena_Default");
 builder.Services.AddDbContext<AplicationDbContext>(x => x.UseSqlServer(cadena));
+
+builder.Services.AddScoped<IRepositorio,Repositorio>();
 
 var app = builder.Build();
 
