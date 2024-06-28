@@ -13,6 +13,7 @@ namespace BlazorCrud.Modelo
         [Required(ErrorMessage = "El autor es obligatorio")]
         public string autor{ get; set; }
         [Required(ErrorMessage = "La cantidad de paginas es obligatorio")]
+        [Range(1,1000,ErrorMessage ="Numero de paginas invalidos")]
         public int paginas{ get; set; }
         [Required(ErrorMessage = "El precio es obligatorio")]
         public int precio { get; set; }

@@ -8,9 +8,11 @@ namespace BlazorCrud.Repositorio
     public class Repositorio : IRepositorio
     {
         AplicationDbContext bd;
-        public Repositorio(AplicationDbContext _bd)
+        ILogger log;
+        public Repositorio(AplicationDbContext _bd, ILogger _log)
         {
             bd = _bd;
+            log = _log;
         }
         public async Task<Libro> Actualizar_Libro(int _id, Libro _libro)
         {
@@ -46,13 +48,21 @@ namespace BlazorCrud.Repositorio
             {
                 return new Libro();
             }
-            var result = await bd.Libro.FindAsync(_libro);
-            if (result == null)
-            {
-                return new Libro();
-            }
+            //var result = await bd.Libro.FindAsync(_libro);
+            //if (result == null)
+            //{
+            //    return new Libro();
+            //}
             _libro.fecha_creacion = DateTime.Now;
-            await bd.Libro.AddAsync(_libro);
+            try
+            {
+                await bd.Libro.AddAsync(_libro);
+
+            }
+            catch (OperationCanceledException ex)
+            {
+                ex.
+            }
             await bd.SaveChangesAsync();
             return _libro;
         }
