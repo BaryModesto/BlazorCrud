@@ -1,0 +1,118 @@
+﻿@page "/editarlibro/{id:int?}"
+
+@inject IRepositorio repo
+@inject NavigationManager manager_navegation
+<h3>Crear Libro</h3>
+
+<div class="card">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-12">
+                <h2 class="text-dark"> Editar Libro</h2>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <EditForm Model="libro" OnValidSubmit="Manejador_Libro">
+            <DataAnnotationsValidator></DataAnnotationsValidator>
+            <div class="container">
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-2">
+                            <label>Titulo</label>
+                        </div>
+                        <div class="col-6">
+                            <InputText @bind-Value="libro.titulo" class="form-control" placeholder="Ingresa el titulo"></InputText>
+                            <ValidationMessage For="() => libro.titulo"></ValidationMessage>
+                        </div>
+                    </div>
+                </div>
+                <br />
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-2">
+                            <label>Descripcion</label>
+                        </div>
+                        <div class="col-6">
+                            <InputText @bind-Value="libro.descripcion" class="form-control" placeholder="Ingresa la descripcion"></InputText>
+                            <ValidationMessage For="() => libro.descripcion"></ValidationMessage>
+                        </div>
+                    </div>
+                </div>
+                <br />
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-2">
+                            <label>Autor</label>
+                        </div>
+                        <div class="col-6">
+                            <InputText @bind-Value="libro.autor" class="form-control" placeholder="Ingresa la autor"></InputText>
+                            <ValidationMessage For="() => libro.descripcion"></ValidationMessage>
+                        </div>
+                    </div>
+                </div>
+                <br />
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-2">
+                            <label>Paginas</label>
+                        </div>
+                        <div class="col-6">
+                            <InputNumber @bind-Value="libro.paginas" class="form-control" placeholder="Ingresa # paginas"></InputNumber>
+                            <ValidationMessage For="() => libro.paginas"></ValidationMessage>
+                        </div>
+                    </div>
+                </div>
+                <br />
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-2">
+                            <label>Precio</label>
+                        </div>
+                        <div class="col-6">
+                            <InputNumber @bind-Value="libro.precio" class="form-control" placeholder="Ingresa el precio"></InputNumber>
+                            <ValidationMessage For="() => libro.precio"></ValidationMessage>
+                        </div>
+                    </div>
+                </div>
+                <br />
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-2">
+                            <button type="submit" class="btn btn-success"><span class="oi oi-cog" aria-hidden="true"></span> Actualizar Libro</button>
+                        </div>
+                        <div class="col-6">
+                            <button type="button" class="btn btn-danger" @onclick="@(()=>manager_navegation.NavigateTo("/libros"))"><span class="oi oi-chevron-left" aria-hidden="true"></span> Volver</button>
+                        </div>
+                    </div>
+                </div>
+                <br />
+
+            </div>
+        </EditForm>
+    </div>
+</div>
+
+
+@code {
+    Libro libro = new Libro();
+    [Parameter]
+    public int? ID {set;get;}
+
+    protected override async Task OnInitializedAsync()
+    {
+        libro = await repo.Get_Libro(ID.Value);
+    }
+
+    async Task Manejador_Libro()
+    {
+        var result = await repo.Actualizar_Libro(ID.Value, libro);
+        manager_navegation.NavigateTo("/libros");
+    }
+}

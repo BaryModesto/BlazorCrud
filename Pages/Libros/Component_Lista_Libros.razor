@@ -39,8 +39,8 @@
                         <td>@i.precio</td>
                         <td>@i.fecha_creacion</td>
                         <td>
-                            <a href="editar_libro/@i.id" class="btn btn-success btn-sm"><span class="oi oi-plus" aria-hidden="true"></span>Editar</a>
-                            <button @onclick="@(() => Borrar_Libro(i.id))" class="btn btn-danger btn-sm"><span class="oi oi-delete" aria-hidden="true">Borrar</span> </button>
+                            <a href="editarlibro/@i.id" class="btn btn-success btn-sm"><span class="oi oi-plus" aria-hidden="true"></span> Editar</a>
+                            <button @onclick="@(() => Borrar_Libro(i.id))" class="btn btn-danger btn-sm"><span class="oi oi-delete" aria-hidden="true"> Borrar</span> </button>
                         </td>
                     </tr>
                 }

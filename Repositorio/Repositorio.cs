@@ -15,13 +15,16 @@ namespace BlazorCrud.Repositorio
             bd = _bd;
             log = _log;
         }
-        public async Task<Libro> Actualizar_Libro(int _id, Libro _libro)
+        public async Task<Libro> Actualizar_Libro(int? _id, Libro _libro)
         {
-            
+            if( bd.Libro  == null || _id == null || _libro == null)
+            {
+                return new Libro();
+            }
             var libro_act =await bd.Libro.FindAsync(_id);
             if (libro_act == null)
             {
-                
+                return new Libro();
             }
             libro_act.titulo = _libro.titulo;
             libro_act.autor= _libro.autor;
@@ -33,7 +36,7 @@ namespace BlazorCrud.Repositorio
             return libro_act;
         }
 
-        public async Task Borrar_Libro(int _id)
+        public async Task Borrar_Libro(int? _id)
         {
             var res = await bd.Libro.FindAsync(_id);
             if (res != null)
@@ -79,7 +82,7 @@ namespace BlazorCrud.Repositorio
             return _libro;
         }
 
-        public async Task<Libro> Get_Libro(int _id)
+        public async Task<Libro> Get_Libro(int? _id)
         {
             var res = await bd.Libro.FindAsync(_id);
             if (res != null)
