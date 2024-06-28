@@ -60,8 +60,9 @@
         lista_libros =await repo.Get_Libros();
     }
 
-    async Task Borrar_Libro(int id)
+    async Task Borrar_Libro(int _id)
     {
-        
+        await repo.Borrar_Libro(_id);
+        lista_libros = await repo.Get_Libros();
     }
 }
